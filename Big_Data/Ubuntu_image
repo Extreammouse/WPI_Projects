@@ -1,0 +1,10 @@
+FROM ubuntu:20.04
+LABEL image="CS585-DS503"
+RUN apt update && \
+    apt install -y openssh-server sudo openjdk-8-jdk
+RUN useradd -rm -d /home/ds503 -s /bin/bash -g root -G sudo -u 1000 ds503
+RUN echo 'ds503:ds503' | chpasswd
+RUN mkdir /home/ds503/shared_folder
+RUN service ssh start
+EXPOSE 22 4040 50070 8080 8081
+CMD ["/usr/sbin/sshd", "-D"]
